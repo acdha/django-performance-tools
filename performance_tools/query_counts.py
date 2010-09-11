@@ -54,7 +54,6 @@ for conn in connections.values():
     _monkey_cursor_execute(conn)
 
 
-
 class QueryCounter(object):
     """
 

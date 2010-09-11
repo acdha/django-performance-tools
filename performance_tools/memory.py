@@ -15,5 +15,5 @@ class Heap(object):
 
     def deltas(self):
         heap = self.hp.heap()
-        # TODO: Decide what other data we should include - (class, count, size) list?
-        return {"size": heap.size }
+        # TODO: Decide what other data we should include in heap reports
+        return {"size": heap.size}
