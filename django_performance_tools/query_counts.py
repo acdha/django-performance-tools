@@ -4,11 +4,6 @@
 Count Django DB queries even when DEBUG=False
 """
 
-from contextlib import contextmanager
-import inspect
-import time
-import sys
-
 import django
 
 
@@ -26,10 +21,12 @@ else:
 # Horrible monkey-patch to log query counts without requiring DEBUG = True
 def _monkey_cursor_execute(conn):
     old_cursor = conn.cursor
+
     def new_cursor(*args, **kwargs):
         c = old_cursor(*args, **kwargs)
 
         old_execute = c.execute
+
         def new_execute(*args, **kwargs):
             try:
                 return old_execute(*args, **kwargs)
@@ -38,6 +35,7 @@ def _monkey_cursor_execute(conn):
         c.execute = new_execute
 
         old_executemany = c.executemany
+
         def new_executemany(s, sql, param_list, *args, **kwargs):
             try:
                 return old_executemany(s, sql, param_list, *args, **kwargs)

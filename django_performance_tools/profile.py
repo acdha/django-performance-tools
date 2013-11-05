@@ -5,14 +5,15 @@ Higher-level abstraction for the underlying profile module
 
 try:
     import cProfile as profile
-except:
+except ImportError:
     import profile
+
 
 class Profiler(object):
     def __init__(self):
         self._profiler = profile.Profile()
-        
-    def profile(self, f, args=[], kwargs={}):
+
+    def profile(self, f, args=None, kwargs=None):
         return self._profiler.runcall(f, *args, **kwargs)
 
     def stats(self):
@@ -24,9 +25,9 @@ class Profiler(object):
 
         stats = self._profiler.getstats()
         stats.sort()
-        
+
         simple_stats = []
-        
+
         for s in stats:
             simple_stats.extend(self.process_profiler_entry(s))
 
@@ -36,7 +37,7 @@ class Profiler(object):
         label = self.label_for_code(entry.code)
         if "_lsprof" in label:
             return []
-        
+
         d = {
             "label": label,
             "call_count": entry.callcount,
@@ -46,8 +47,8 @@ class Profiler(object):
         }
 
         if getattr(entry, "calls", None):
-            d['calls'] = [ self.process_profiler_entry(i) for i in entry.calls ] 
-        
+            d['calls'] = [self.process_profiler_entry(i) for i in entry.calls]
+
         return [d]
 
     def label_for_code(self, code):
@@ -56,5 +57,5 @@ class Profiler(object):
             return code
         else:
             return '%s <%s:%d>' % (code.co_name,
-                                 code.co_filename,
-                                 code.co_firstlineno)
+                                   code.co_filename,
+                                   code.co_firstlineno)

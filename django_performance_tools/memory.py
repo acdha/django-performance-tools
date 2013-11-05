@@ -4,6 +4,7 @@ Heap profiling using Guppy
 
 from guppy import hpy
 
+
 class Heap(object):
     """
     Calculate heap consumed before and after request

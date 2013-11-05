@@ -1,9 +1,9 @@
 import unittest
 
+
 class ProfileTestCase(unittest.TestCase):
     def test_basic(self):
-
-        from performance_tools.profile import Profiler
+        from django_performance_tools.profile import Profiler
 
         def fib(n):
             if n == 0:
@@ -12,10 +12,10 @@ class ProfileTestCase(unittest.TestCase):
                 return 1
             else:
                 return fib(n - 1) + fib(n - 2)
-                  
+
         p = Profiler()
         p.profile(fib, (25,))
-        
+
         stats = p.stats()
 
         self.assertEqual(len(stats), 1)
